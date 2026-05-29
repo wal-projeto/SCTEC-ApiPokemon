@@ -1,0 +1,28 @@
+{
+  "name": "pokedex-typescript-lite",
+  "version": "1.0.0",
+  "description": "Pokédex TypeScript Lite — Mini-Projeto SCTEC",
+  "homepage": "https://github.com/wal-projeto/SCTEC-ApiPokemon#readme",
+  "bugs": {
+    "url": "https://github.com/wal-projeto/SCTEC-ApiPokemon/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wal-projeto/SCTEC-ApiPokemon.git"
+  },
+  "license": "ISC",
+  "author": "wal-projeto",
+  "type": "commonjs",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
+  }
+}
