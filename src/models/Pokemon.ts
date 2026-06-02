@@ -1,48 +1,28 @@
-// INTERFACE: define quais campos um objeto deve ter e qual o tipo de cada um
-// Com a Interface nenhum Pokémon será criado faltando um campo ou com o tipo errado.
+// OBJETIVO: Define os "moldes" (interfaces) dos dados usados no projeto.
+// A interface garante que todo objeto tenha os campos certos, com os tipos certos.
 
-// objeto depois de simplificarmos os dados da API: tipos será uma lista simples de string, mais fácil de usar.
-// tipos: strig[] => ["electric"] ou ["grass", "poison"]
+// Objeto já com os dados simplificados para o projeto.
 export interface PokemonResumo {
   id: number;
   nome: string;
-  tipos: string[];
+  tipos: string[]; // lista de tipos em texto simples (ex: ["electric"] )
   altura: number;
   peso: number;
 }
 
-// Represente os campos que vêm da PokeAPI: uma lista de objetos complexos
+// Representa UM item do array "types" que vem da PokeAPI.
+// Interface separada para deixar o PokemonApiResponse mais legível.
+interface PokemonType {
+  type: {
+    name: string; // nome do tipo em inglês (ex: "electric", "fire", "water")
+  };
+}
+
+// Representa os dados BRUTOS da PokeAPI. Não mapeamos todos os campos, só os que o projeto vai usar.
 export interface PokemonApiResponse {
   id: number;
   name: string;
   height: number;
   weight: number;
-  types: {
-    type: {
-      name: string;
-    };
-  }[];
+  types: PokemonType[]; // lista de tipos no formato original: [{ type: { name: "grass" } }, { type: { name: "poison" } }]
 }
-
-// O [] significa que um Pokemon pode ter mais tipos:
-/**
-{
-  "id": 1,
-  "name": "bulbasaur",
-  "height": 7,
-  "weight": 69,
-  "types": [
-    {
-      "type": {
-        "name": "grass"
-      }
-    },
-    {
-      "type": {
-        "name": "poison"
-      }
-    }
-  ]
-}
-
-*/
