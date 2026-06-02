@@ -13,7 +13,7 @@
   "license": "ISC",
   "author": "wal-projeto",
   "type": "commonjs",
-  "main": "src/main.ts",
+  "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx src/main.ts",
