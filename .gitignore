@@ -1,7 +1,6 @@
 node_modules/
 dist/
 *.docx
-.prettierrc
-eslint.config.mjs
 .vscode/
+
 
