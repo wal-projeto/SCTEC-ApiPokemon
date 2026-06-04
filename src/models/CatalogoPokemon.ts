@@ -49,4 +49,4 @@ class CatalogoPokemon {
 }
 
 // exporta a classe para ser usada em outros arquivos
-export default CatalogoPokemon;
+export { CatalogoPokemon };
