@@ -1,13 +1,14 @@
 // Camada responsável por toda comunicação com o usuário no terminal.
 // A Classe TerminalController recebe os dados e GERENCIA como exibir de forma clara os resultados das operações
-/* 
+/*
 AÇÕES:
-Métodos da Classe:   O que exibe:
-exibirSucesso()	     mensagem [OK]. Ex: [OK] pikachu adicionado ao catálogo.
-exibirErro()	     mensagem [ERRO]. Ex: [ERRO] Pokémon não encontrado.
-exibirAviso()	     mensagem [AVISO].  Ex: [AVISO] Catálogo vazio.
-exibirPokemon()	     Recebe um objeto PokemonResumo e formata a exibição. Resultado: #1 - bulbasaur | Tipos: grass, poison | Altura: 7 | Peso: 69
-exibirCatalogo()     Recebe a lista inteira de Pokémon do catálogo e a exibi.
+Métodos da Classe:        O que exibe:
+exibirSucesso()           mensagem [OK]. Ex: [OK] pikachu adicionado ao catálogo.
+exibirErro()              mensagem [ERRO]. Ex: [ERRO] Pokémon não encontrado.
+exibirAviso()             mensagem [AVISO].  Ex: [AVISO] Catálogo vazio.
+exibirPokemon()           Recebe um objeto PokemonResumo e formata a exibição. Resultado: #1 - bulbasaur | Tipos: grass, poison | Altura: 7 | Peso: 69
+exibirCatalogo()          Recebe a lista inteira de Pokémon do catálogo e a exibi.
+exibirCatalogoNumerado()  Exibe a lista com número de posição e nome. Ex: 1 - pikachu
  */
 
 //o TerminalController precisa saber o "molde" de um Pokémon para exibir seus dados
@@ -51,7 +52,21 @@ class TerminalController {
       this.exibirPokemon(pokemon);
     });
   }
+
+  // Exibe a lista numerada por posição — usada na tela de remoção
+  // forEach recebe o pokemon E o índice (posição no array, começa em 0)
+  // index + 1 → transforma 0, 1, 2... em 1, 2, 3... para o usuário
+  // Resultado: "1 - pikachu", "2 - charmander"
+  exibirCatalogoNumerado(pokemons: PokemonResumo[]): void {
+    if (pokemons.length === 0) {
+      this.exibirAviso('Catálogo vazio.');
+      return;
+    }
+    pokemons.forEach((pokemon, index) => {
+      console.log(`${String(index + 1)} - ${pokemon.nome}`);
+    });
+  }
 }
 
 // exporta a classe para ser usada em outros arquivos
-export default TerminalController;
+export { TerminalController };
