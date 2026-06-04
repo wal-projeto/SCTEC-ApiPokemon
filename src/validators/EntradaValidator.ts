@@ -7,6 +7,7 @@
 // - Se for nome: só letras, números e hífen (ex: "pikachu", "mr-mime", "ho-oh", "porygon-z")
 
 import { BaseValidator } from './BaseValidator';
+import { ErroDeValidacaoError } from '../models/CustomErrors';
 
 export class EntradaValidator extends BaseValidator {
   // regex para nomes de Pokémon: começa com letra ou número, pode ter hífen no meio
@@ -19,7 +20,7 @@ export class EntradaValidator extends BaseValidator {
   static validarEntrada(value: unknown): string {
     // antes de mais nada, verificamos se é uma string
     if (!this.isString(value)) {
-      throw new Error('A entrada deve ser um texto.');
+      throw new ErroDeValidacaoError('A entrada deve ser um texto.');
     }
 
     // trim() remove espaços no início e no fim — o usuário pode ter digitado com espaço
@@ -28,7 +29,7 @@ export class EntradaValidator extends BaseValidator {
 
     // verifica se ficou vazio após o trim
     if (entrada.length === 0) {
-      throw new Error(
+      throw new ErroDeValidacaoError(
         'Você não digitou nada. Informe um nome ou ID de Pokémon.',
       );
     }
@@ -41,7 +42,7 @@ export class EntradaValidator extends BaseValidator {
 
     // se não for número, valida como nome de Pokémon
     if (!this.nomeRegex.test(entrada)) {
-      throw new Error(
+      throw new ErroDeValidacaoError(
         'Entrada inválida. Use apenas letras, números e hífen. Exemplos: pikachu, mr-mime, 25',
       );
     }

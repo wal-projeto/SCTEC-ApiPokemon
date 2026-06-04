@@ -14,70 +14,92 @@ import { ErroDeValidacaoError } from '../models/CustomErrors';
 import { PokemonResumo } from '../models/Pokemon';
 
 export class PokemonValidator extends BaseValidator {
-  // recebe o dado bruto da API (unknown — TypeScript não sabe o tipo ainda)
-  // verifica campo por campo se os dados são válidos
-  // retorna um PokemonResumo já com os campos mapeados para português
-  // lança ErroDeValidacaoError se qualquer campo estiver ausente ou com tipo errado
+  // --- MÉTODOS AUXILIARES PRIVADOS ---
+  // Esses métodos evitam repetir o mesmo padrão de verificação para cada campo.
+  // "private" → só o próprio PokemonValidator pode usá-los.
+
+  // verifica se o campo existe no objeto e é um número — retorna o valor ou lança erro
+  private static getCampoNumero(obj: object, campo: string): number {
+    const registro = obj as Record<string, unknown>;
+    const valor = registro[campo];
+    if (!this.isNumber(valor)) {
+      throw new ErroDeValidacaoError(`Campo "${campo}" ausente ou inválido.`);
+    }
+    return valor;
+  }
+
+  // verifica se o campo existe no objeto e é uma string — retorna o valor ou lança erro
+  private static getCampoTexto(obj: object, campo: string): string {
+    const registro = obj as Record<string, unknown>;
+    const valor = registro[campo];
+    if (!this.isString(valor)) {
+      throw new ErroDeValidacaoError(`Campo "${campo}" ausente ou inválido.`);
+    }
+    return valor;
+  }
+
+  // verifica se "types" existe, é um array, e cada item tem { type: { name: string } }
+  // itera sobre cada item e valida sua estrutura antes de extrair os nomes
+  private static getTipos(obj: object): string[] {
+    const registro = obj as Record<string, unknown>;
+
+    if (!Array.isArray(registro.types)) {
+      throw new ErroDeValidacaoError('Campo "types" ausente ou inválido.');
+    }
+
+    // map() percorre cada item do array e retorna o nome do tipo
+    // se algum item tiver formato errado, lança erro antes de continuar
+    return (registro.types as unknown[]).map((item: unknown) => {
+      // cada item deve ser um objeto
+      if (!this.isObject(item)) {
+        throw new ErroDeValidacaoError('Campo "types" contém item inválido.');
+      }
+
+      const itemObj = item as Record<string, unknown>;
+
+      // cada item deve ter um campo "type" que também é um objeto
+      if (!this.isObject(itemObj.type)) {
+        throw new ErroDeValidacaoError(
+          'Campo "types[].type" ausente ou inválido.',
+        );
+      }
+
+      const typeObj = itemObj.type as Record<string, unknown>;
+      const nome = typeObj.name;
+
+      // o campo "name" dentro de "type" deve ser uma string
+      if (!this.isString(nome)) {
+        throw new ErroDeValidacaoError(
+          'Campo "types[].type.name" ausente ou inválido.',
+        );
+      }
+
+      return nome;
+    });
+  }
+
+  // --- MÉTODO PRINCIPAL ---
+  // recebe o dado bruto da API (unknown) e usa os auxiliares para validar cada parte
+  // retorna PokemonResumo já mapeado — ou lança ErroDeValidacaoError se algo estiver errado
   static validate(value: unknown): PokemonResumo {
-    // PASSO 1: verifica se é um objeto (não null, não array, não string...)
     if (!this.isObject(value)) {
-      throw new ErroDeValidacaoError('resposta');
+      throw new ErroDeValidacaoError('Resposta inválida recebida da PokeAPI.');
     }
 
-    // PASSO 2: verifica campo "id" — deve existir e ser número
-    if (!('id' in value)) {
-      throw new ErroDeValidacaoError('id');
-    }
-    if (!this.isNumber(value.id)) {
-      throw new ErroDeValidacaoError('id');
-    }
+    // cada chamada verifica e retorna o campo já tipado — ou lança erro automaticamente
+    const id = this.getCampoNumero(value, 'id');
+    const name = this.getCampoTexto(value, 'name');
+    const height = this.getCampoNumero(value, 'height');
+    const weight = this.getCampoNumero(value, 'weight');
+    const tipos = this.getTipos(value);
 
-    // PASSO 3: verifica campo "name" — deve existir e ser string
-    if (!('name' in value)) {
-      throw new ErroDeValidacaoError('name');
-    }
-    if (!this.isString(value.name)) {
-      throw new ErroDeValidacaoError('name');
-    }
-
-    // PASSO 4: verifica campo "height" — deve existir e ser número
-    if (!('height' in value)) {
-      throw new ErroDeValidacaoError('height');
-    }
-    if (!this.isNumber(value.height)) {
-      throw new ErroDeValidacaoError('height');
-    }
-
-    // PASSO 5: verifica campo "weight" — deve existir e ser número
-    if (!('weight' in value)) {
-      throw new ErroDeValidacaoError('weight');
-    }
-    if (!this.isNumber(value.weight)) {
-      throw new ErroDeValidacaoError('weight');
-    }
-
-    // PASSO 6: verifica campo "types" — deve existir e ser um array
-    if (!('types' in value)) {
-      throw new ErroDeValidacaoError('types');
-    }
-    if (!Array.isArray(value.types)) {
-      throw new ErroDeValidacaoError('types');
-    }
-
-    // PASSO 7: extrai os nomes dos tipos do array
-    // cast seguro aqui — já confirmamos que types é um array
-    // cada item tem formato: { type: { name: "electric" } }
-    const tipos = (value.types as { type: { name: string } }[]).map(
-      (item) => item.type.name,
-    );
-
-    // PASSO 8: monta e retorna PokemonResumo com os campos mapeados (inglês → português)
+    // monta e retorna PokemonResumo com os campos mapeados (inglês → português)
     return {
-      id: value.id,
-      nome: value.name,
+      id,
+      nome: name,
       tipos,
-      altura: value.height,
-      peso: value.weight,
+      altura: height,
+      peso: weight,
     };
   }
 }
