@@ -100,7 +100,7 @@ SCTEC-ApiPokemon/
 │   └── utils/
 │       └── textFormatters.ts   # funções utilitárias (extra)
 │
-├── pc_box.json   # catálogo salvo localmente
+├── pc_box.json   # gerado automaticamente ao rodar o programa — guarda o catálogo entre execuções
 ├── tsconfig.json
 ├── package.json
 └── README.md
