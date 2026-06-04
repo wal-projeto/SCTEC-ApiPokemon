@@ -5,53 +5,51 @@
  * o BoxService salva esses dados em disco para que sobrevivam entre execuções.
  *
  * FUNÇÕES:
- * salvarBox()    → recebe a lista e grava no arquivo box.json
- * carregarBox()  → lê o arquivo box.json e devolve a lista
+ * salvarBox()    → recebe a lista e grava no arquivo pc_box.json
+ * carregarBox()  → lê o arquivo pc_box.json e devolve a lista
  *
  * FLUXO:
- * PokemonResumo[]  →  JSON.stringify()  →  writeFile()  →  box.json
- * box.json         →  readFile()        →  JSON.parse()  →  PokemonResumo[]
+ * PokemonResumo[]  →  JSON.stringify()  →  writeFile()  →  pc_box.json
+ * pc_box.json      →  readFile()        →  JSON.parse()  →  PokemonResumo[]
  */
 
 // node:fs/promises — versão assíncrona do módulo de arquivos do Node.js
-// writeFile: grava conteúdo em um arquivo (cria se não existir, sobrescreve se existir)
-// readFile:  lê o conteúdo de um arquivo
 import { writeFile, readFile } from 'node:fs/promises';
+// path.join: monta o caminho do arquivo de forma segura em qualquer sistema operacional
+// __dirname: pasta onde este arquivo está (src/services/)
+// '../..' sobe duas pastas → chega na raiz do projeto onde o pc_box.json deve ficar
+import { join } from 'node:path';
 
-// importa a interface para garantir que o arquivo sempre salve/carregue o formato certo
 import { PokemonResumo } from '../models/Pokemon';
 
-// nome do arquivo onde os dados serão guardados — fica na raiz do projeto
-const ARQUIVO = 'pc_box.json';
+// caminho absoluto para o arquivo — independe de onde o programa é executado
+const ARQUIVO = join(__dirname, '..', '..', 'pc_box.json');
 
-// função assíncrona — usa async porque writeFile precisa de await para esperar o disco
-// recebe a lista de Pokémon e não precisa retornar nada (Promise<void>)
 async function salvarBox(pokemons: PokemonResumo[]): Promise<void> {
   // JSON.stringify() transforma o array de objetos em texto JSON
   // null, 2 → formata o JSON com indentação de 2 espaços (mais legível no arquivo)
   const conteudo = JSON.stringify(pokemons, null, 2);
 
-  // writeFile() grava o texto no arquivo — await espera a gravação terminar
-  // 'utf-8' define a codificação do texto (padrão para arquivos de texto)
   await writeFile(ARQUIVO, conteudo, 'utf-8');
 }
 
-// função assíncrona — usa async porque readFile precisa de await para esperar o disco
-// retorna uma Promise com o array de Pokémon (ou array vazio se o arquivo não existir)
 async function carregarBox(): Promise<PokemonResumo[]> {
   try {
-    // readFile() lê o conteúdo do arquivo como texto — await espera a leitura terminar
     const conteudo = await readFile(ARQUIVO, 'utf-8');
-
-    // JSON.parse() transforma o texto JSON de volta em array de objetos
-    // "as PokemonResumo[]" diz ao TypeScript: "pode confiar, esse dado tem esse formato"
     return JSON.parse(conteudo) as PokemonResumo[];
-  } catch {
-    // se o arquivo ainda não existe (primeira execução), readFile lança um erro
-    // o catch captura esse erro e devolve uma lista vazia — comportamento esperado
-    return [];
+  } catch (error: unknown) {
+    // ENOENT = "No such file or directory" — arquivo ainda não existe (primeira execução)
+    // esse é o único caso esperado — retorna lista vazia sem erro
+    if (
+      error instanceof Error &&
+      (error as NodeJS.ErrnoException).code === 'ENOENT'
+    ) {
+      return [];
+    }
+
+    // qualquer outro erro (JSON corrompido, permissão negada...) — relança para o catch do main.ts tratar
+    throw error;
   }
 }
 
-// exporta as duas funções para serem usadas em outros arquivos
 export { salvarBox, carregarBox };

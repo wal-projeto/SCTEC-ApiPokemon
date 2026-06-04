@@ -52,8 +52,11 @@ async function main(): Promise<void> {
         '\nDigite o número da opção:\n',
       );
 
+      // trim() uma vez só — reutilizado em todos os ifs abaixo
+      const opcao = respostaMenu.trim();
+
       // ==================== OPÇÃO 1 — BUSCAR ====================
-      if (respostaMenu.trim() === '1') {
+      if (opcao === '1') {
         const respostaOperacao = await interfaceConsole.question(
           '\nDigite o nome ou ID do Pokémon que deseja buscar na PokeAPI:\n',
         );
@@ -92,7 +95,7 @@ async function main(): Promise<void> {
       }
 
       // ==================== OPÇÃO 2 — REMOVER ====================
-      if (respostaMenu.trim() === '2') {
+      if (opcao === '2') {
         // catálogo vazio — não há nada para remover, volta ao menu
         if (catalogo.listar().length === 0) {
           terminal.exibirAviso('Catálogo vazio. Nenhum Pokémon para remover.');
@@ -136,14 +139,14 @@ async function main(): Promise<void> {
       }
 
       // ==================== OPÇÃO 3 — LISTAR ====================
-      if (respostaMenu.trim() === '3') {
+      if (opcao === '3') {
         console.log('\n--- Catálogo atual ---');
         terminal.exibirCatalogo(catalogo.listar());
         continue; // volta ao menu
       }
 
       // ==================== OPÇÃO 4 — SAIR ====================
-      if (respostaMenu.trim() === '4') {
+      if (opcao === '4') {
         // rodando = false faz o while parar na próxima verificação
         console.log('\nAté logo!');
         rodando = false;
