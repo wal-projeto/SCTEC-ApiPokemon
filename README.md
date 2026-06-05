@@ -69,23 +69,6 @@ npm install
 npm run dev
 ```
 
-O programa vai exibir no terminal:
-```
-==============================
-   Pokédex TypeScript Lite
-==============================
-
-[1] Buscar Pokémon na PokeAPI
-[2] Remover Pokémon do catálogo
-[3] Listar catálogo
-[4] Sair
-
-Digite o número da opção:
-```
-
-O menu fica em loop — após cada operação volta automaticamente para as opções. Para encerrar escolha `[4] Sair`.
-
-
 ## Estrutura do projeto
 ```
 SCTEC-ApiPokemon/
@@ -122,14 +105,14 @@ SCTEC-ApiPokemon/
 
 ## Exemplos de execução
 
-### Catálogo carregado do arquivo
 ```
-[OK] 2 Pokémon(s) carregado(s) do arquivo.
+[OK] 1 Pokémon(s) carregado(s) do arquivo pc_box.json
 
 ==============================
    Pokédex TypeScript Lite
 ==============================
 
+==============================
 [1] Buscar Pokémon na PokeAPI
 [2] Remover Pokémon do catálogo
 [3] Listar catálogo
@@ -141,32 +124,35 @@ SCTEC-ApiPokemon/
 Digite o número da opção:
 1
 
-Digite o nome ou ID do Pokémon que deseja buscar na PokeAPI:
-pikachu
-
+Digite o nome ou ID do Pokémon que deseja buscar na PokeAPI:  pikachu
 #25 - pikachu | Tipos: electric | Altura: 4 | Peso: 60
 
-Deseja adicionar "pikachu" ao catálogo? (Digite: S ou N):
-S
+Deseja adicionar "pikachu" ao catálogo? (Digite: S ou N): s
 
 [OK] pikachu adicionado ao catálogo.
 [OK] Catálogo salvo em pc_box.json.
+
+--- Catálogo atual ---
+#25 - pikachu | Tipos: electric | Altura: 4 | Peso: 60
+#29 - nidoran-f | Tipos: poison | Altura: 4 | Peso: 70
+
 ```
 
 ### Opção 1 — Busca inválida
 ```
-Digite o nome ou ID do Pokémon que deseja buscar na PokeAPI:
-pokemon-inexistente
-
+Digite o nome ou ID do Pokémon que deseja buscar na PokeAPI: pokemon-inexistente
 [ERRO] Pokémon "pokemon-inexistente" não encontrado na PokeAPI.
+
 ```
 
 ### Opção 1 — Pokémon já no catálogo
 ```
-Deseja adicionar "pikachu" ao catálogo? (Digite: S ou N):
-S
-
+Deseja adicionar "pikachu" ao catálogo? (Digite: S ou N): s
 [AVISO] pikachu já está no catálogo.
+
+--- Catálogo atual ---
+#25 - pikachu | Tipos: electric | Altura: 4 | Peso: 60
+#29 - nidoran-f | Tipos: poison | Altura: 4 | Peso: 70
 ```
 
 ### Opção 2 — Remover Pokémon
@@ -178,8 +164,7 @@ Digite o número da opção:
 1 - pikachu
 2 - charmander
 
-Digite o número do Pokémon que deseja remover:
-1
+Digite o número do Pokémon que deseja remover: 1
 
 [OK] pikachu removido do catálogo.
 [OK] Catálogo salvo em pc_box.json.
