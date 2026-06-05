@@ -233,7 +233,7 @@ O fluxo é:
 1. `fetch(url)` — envia a requisição para a API
 2. `await resposta` — espera a API responder
 3. `await resposta.json()` — converte o JSON recebido em objeto JavaScript
-4. `PokemonValidator.validate()` — valida e transforma no formato do projeto
+4. `PokemonValidator.validate()` — recebe os dados da API, verifica se todos os campos necessários estão ali e transforma no formato da API(inglês) para o formato do projeto(português) - PokemonResumo.
 
 
 ### Tratamento de erros
@@ -260,7 +260,7 @@ Os métodos de array foram usados em `src/models/CatalogoPokemon.ts` e `src/vali
 Criada em `src/models/CatalogoPokemon.ts`, essa classe gerencia a lista de Pokémon na memória enquanto o programa está rodando.
 
 Atributo:
-- `private pokemons: PokemonResumo[]` — lista privada de Pokémon. O `private` impede que outros arquivos acessem ou modifiquem a lista diretamente
+- `private pokemons: PokemonResumo[]` — lista privada de Pokémon. O `private` impede que outros arquivos acessem ou modifiquem a lista diretamente, ou seja, o atributo "pokemons" só pode ser acessado dentro da Classe CatalogoPokemons.
 
 Métodos:
 - `adicionar(pokemon: PokemonResumo): boolean` — usa `some()` para checar se o ID já existe. Retorna `true` se adicionou ou `false` se já estava na lista
@@ -282,7 +282,10 @@ Métodos:
 
 ### Validators
 Seguindo o padrão ensinado em aula, criei uma camada de validação em `src/validators/`:
-- `BaseValidator.ts` — classe base com métodos auxiliares `isNumber`, `isString`, `isObject`
+- `BaseValidator.ts` — classe base com métodos auxiliares, ou seja, é o manual de verificação com 3 perguntas básicas que todos os outros validators usam:  
+   `isNumber` → é um número?, 
+   `isString` → é um texto?, 
+   `isObject` → é um objeto?.
 - `EntradaValidator.ts` — herda de `BaseValidator`, valida o texto digitado pelo usuário antes de chamar a API. Usa `ErroDeValidacaoError` para manter consistência com os demais validators
 - `PokemonValidator.ts` — herda de `BaseValidator`, valida o JSON da API campo por campo antes de transformar em `PokemonResumo`. Tem três métodos auxiliares privados para evitar repetição de código:
   - `getCampoNumero(obj, campo)` — verifica se o campo existe e é um número
