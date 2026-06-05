@@ -41,25 +41,36 @@ Precisa ter instalado:
 - [Git](https://git-scm.com/)
 
 Para verificar se estão instalados, rode no terminal:
+```
 node -v
 npm -v
 git --version
+```
 
 
 ## Como instalar
 Clone o repositório:
+```
 git clone https://github.com/wal-projeto/SCTEC-ApiPokemon.git
+```
 
 Acesse a pasta:
+```
 cd SCTEC-ApiPokemon
+```
 
 Instale as dependências:
+```
 npm install
+```
 
 ## Como executar
+```
 npm run dev
+```
 
 O programa vai exibir no terminal:
+```
 ==============================
    Pokédex TypeScript Lite
 ==============================
@@ -70,11 +81,13 @@ O programa vai exibir no terminal:
 [4] Sair
 
 Digite o número da opção:
+```
 
 O menu fica em loop — após cada operação volta automaticamente para as opções. Para encerrar escolha `[4] Sair`.
 
 
 ## Estrutura do projeto
+```
 SCTEC-ApiPokemon/
 │
 ├── src/
@@ -104,11 +117,13 @@ SCTEC-ApiPokemon/
 ├── tsconfig.json
 ├── package.json
 └── README.md
+```
 
 
 ## Exemplos de execução
 
 ### Catálogo carregado do arquivo
+```
 [OK] 2 Pokémon(s) carregado(s) do arquivo.
 
 ==============================
@@ -119,8 +134,10 @@ SCTEC-ApiPokemon/
 [2] Remover Pokémon do catálogo
 [3] Listar catálogo
 [4] Sair
+```
 
 ### Opção 1 — Busca válida
+```
 Digite o número da opção:
 1
 
@@ -134,20 +151,26 @@ S
 
 [OK] pikachu adicionado ao catálogo.
 [OK] Catálogo salvo em pc_box.json.
+```
 
 ### Opção 1 — Busca inválida
+```
 Digite o nome ou ID do Pokémon que deseja buscar na PokeAPI:
 pokemon-inexistente
 
 [ERRO] Pokémon "pokemon-inexistente" não encontrado na PokeAPI.
+```
 
 ### Opção 1 — Pokémon já no catálogo
+```
 Deseja adicionar "pikachu" ao catálogo? (Digite: S ou N):
 S
 
 [AVISO] pikachu já está no catálogo.
+```
 
 ### Opção 2 — Remover Pokémon
+```
 Digite o número da opção:
 2
 
@@ -163,20 +186,25 @@ Digite o número do Pokémon que deseja remover:
 
 --- Catálogo atual ---
 #4 - charmander | Tipos: fire | Altura: 6 | Peso: 85
+```
 
 ### Opção 3 — Listar catálogo
+```
 Digite o número da opção:
 3
 
 --- Catálogo atual ---
 #25 - pikachu | Tipos: electric | Altura: 4 | Peso: 60
 #4 - charmander | Tipos: fire | Altura: 6 | Peso: 85
+```
 
 ### Opção 4 — Sair
+```
 Digite o número da opção:
 4
 
 Até logo!
+```
 
 
 ## O que aprendi com esse projeto
@@ -233,7 +261,7 @@ O fluxo é:
 1. `fetch(url)` — envia a requisição para a API
 2. `await resposta` — espera a API responder
 3. `await resposta.json()` — converte o JSON recebido em objeto JavaScript
-4. `PokemonValidator.validate()` — recebe os dados da API, verifica se todos os campos necessários estão ali e transforma no formato da API(inglês) para o formato do projeto(português) - PokemonResumo.
+4. `PokemonValidator.validate()` — recebe os dados da API, verifica se todos os campos necessários estão ali e transforma no formato da API (inglês) para o formato do projeto (português) - PokemonResumo.
 
 
 ### Tratamento de erros
@@ -243,7 +271,7 @@ O projeto usa `try/catch` e classes de erro personalizadas em `src/models/Custom
 - **Sem conexão com a internet**: o `fetch` falha antes de chegar na API → lança `ErroDeConexaoError`
 - **Dados inválidos da API**: o `PokemonValidator` verifica cada campo → lança `ErroDeValidacaoError` se algo estiver fora do formato esperado
 
-No `main.ts`, o bloco `catch` captura qualquer um desses erros e exibe a mensagem com `terminal.exibirErro(), que é um Método da Classe TerminalController responsável por exibir de forma clara os resultados das operações. O `finally` garante que o terminal sempre feche corretamente, mesmo quando ocorre um erro.
+No `main.ts`, o bloco `catch` captura qualquer um desses erros e exibe a mensagem com `terminal.exibirErro()`, que é um Método da Classe TerminalController responsável por exibir de forma clara os resultados das operações. O `finally` garante que o terminal sempre feche corretamente, mesmo quando ocorre um erro.
 
 
 ### Métodos de array
@@ -260,7 +288,7 @@ Os métodos de array foram usados em `src/models/CatalogoPokemon.ts` e `src/vali
 Criada em `src/models/CatalogoPokemon.ts`, essa classe gerencia a lista de Pokémon na memória enquanto o programa está rodando.
 
 Atributo:
-- `private pokemons: PokemonResumo[]` — lista privada de Pokémon. O `private` impede que outros arquivos acessem ou modifiquem a lista diretamente, ou seja, o atributo "pokemons" só pode ser acessado dentro da Classe CatalogoPokemons.
+- `private pokemons: PokemonResumo[]` — lista privada de Pokémon. O `private` impede que outros arquivos acessem ou modifiquem a lista diretamente, ou seja, o atributo "pokemons" só pode ser acessado dentro da Classe CatalogoPokemon.
 
 Métodos:
 - `adicionar(pokemon: PokemonResumo): boolean` — usa `some()` para checar se o ID já existe. Retorna `true` se adicionou ou `false` se já estava na lista
@@ -282,10 +310,10 @@ Métodos:
 
 ### Validators
 Seguindo o padrão ensinado em aula, criei uma camada de validação em `src/validators/`:
-- `BaseValidator.ts` — classe base com métodos auxiliares, ou seja, é o manual de verificação com 3 perguntas básicas que todos os outros validators usam:  
-   `isNumber` → é um número?, 
-   `isString` → é um texto?, 
-   `isObject` → é um objeto?.
+- `BaseValidator.ts` — classe base com métodos auxiliares, ou seja, é o manual de verificação com 3 perguntas básicas que todos os outros validators usam:
+  - `isNumber` → é um número?
+  - `isString` → é um texto?
+  - `isObject` → é um objeto?
 - `EntradaValidator.ts` — herda de `BaseValidator`, valida o texto digitado pelo usuário antes de chamar a API. Usa `ErroDeValidacaoError` para manter consistência com os demais validators
 - `PokemonValidator.ts` — herda de `BaseValidator`, valida o JSON da API campo por campo antes de transformar em `PokemonResumo`. Tem três métodos auxiliares privados para evitar repetição de código:
   - `getCampoNumero(obj, campo)` — verifica se o campo existe e é um número
