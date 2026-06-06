@@ -88,13 +88,10 @@ SCTEC-ApiPokemon/
 │   │   ├── PokeApiService.ts   # busca os dados na PokeAPI
 │   │   └── BoxService.ts       # salva e carrega os dados no pc_box.json (extra)
 │   │
-│   ├── validators/
-│   │   ├── BaseValidator.ts    # classe base com helpers de tipo
-│   │   ├── EntradaValidator.ts # valida o que o usuário digita no terminal
-│   │   └── PokemonValidator.ts # valida os dados brutos recebidos da API
-│   │
-│   └── utils/
-│       └── textFormatters.ts   # funções utilitárias (extra)
+│   └── validators/
+│       ├── BaseValidator.ts    # classe base com helpers de tipo
+│       ├── EntradaValidator.ts # valida o que o usuário digita no terminal
+│       └── PokemonValidator.ts # valida os dados brutos recebidos da API
 │
 ├── pc_box.json   # gerado automaticamente ao rodar o programa — guarda o catálogo entre execuções
 ├── tsconfig.json
