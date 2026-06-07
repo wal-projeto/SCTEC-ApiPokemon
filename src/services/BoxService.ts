@@ -24,6 +24,10 @@ async function carregarBox(): Promise<PokemonResumo[]> {
       return [];
     }
 
+    if (error instanceof SyntaxError) {
+      return [];
+    }
+
     throw error;
   }
 }

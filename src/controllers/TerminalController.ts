@@ -8,7 +8,7 @@ class TerminalController {
   }
 
   exibirErro(mensagem: string): void {
-    console.log(`[ERRO] ${mensagem}`);
+    console.error(`[ERRO] ${mensagem}`);
   }
 
   exibirAviso(mensagem: string): void {
