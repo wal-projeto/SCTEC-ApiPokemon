@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.docx
+.vscode/
+README.md
+projetoprofessor/
+docs/
+pc_box.json
+src_comentado/

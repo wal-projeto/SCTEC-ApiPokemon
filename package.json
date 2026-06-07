@@ -1,0 +1,38 @@
+{
+  "name": "pokedex-typescript-lite",
+  "version": "1.0.0",
+  "description": "Pokédex TypeScript Lite — Mini-Projeto SCTEC",
+  "homepage": "https://github.com/wal-projeto/SCTEC-ApiPokemon#readme",
+  "bugs": {
+    "url": "https://github.com/wal-projeto/SCTEC-ApiPokemon/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wal-projeto/SCTEC-ApiPokemon.git"
+  },
+  "license": "ISC",
+  "author": "wal-projeto",
+  "type": "commonjs",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.1",
+    "@typescript-eslint/eslint-plugin": "^8.59.4",
+    "@typescript-eslint/parser": "^8.59.4",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.6",
+    "prettier": "^3.8.3",
+    "tsx": "^4.22.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.60.1"
+  }
+}
